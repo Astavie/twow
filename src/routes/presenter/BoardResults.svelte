@@ -9,7 +9,7 @@
     players: Player[],
     revealed: boolean,
   }
-  let { pairs, reveal, next }: { pairs: Pair[], reveal: (number) => void, next: () => void } = $props();
+  let { pairs, reveal, next, count }: { pairs: Pair[], reveal: (number) => void, next: () => void, count: number } = $props();
 
 	import goldMedal from '$lib/images/gold-medal.png';
 	import silverMedal from '$lib/images/silver-medal.png';
@@ -25,14 +25,21 @@
     {#each pairs as pair, index}
       <div class="h-9 flex items-end">
         {#if index === 0}
-          <img class="h-7 mr-1" alt='Gold medal' src={goldMedal}/>
+        {#each { length: count }}
+          <img class="h-7" alt='Gold medal' src={goldMedal}/>
+        {/each}
         {:else if index === 1}
-          <img class="h-7 mr-1" alt='Silver medal' src={silverMedal}/>
+        {#each { length: count }}
+          <img class="h-7" alt='Silver medal' src={silverMedal}/>
+        {/each}
         {:else if index === 2}
-          <img class="h-7 mr-1" alt='Bronze medal' src={bronzeMedal}/>
+        {#each { length: count }}
+          <img class="h-7" alt='Bronze medal' src={bronzeMedal}/>
+        {/each}
         {:else}
-          <p class="mr-1 mb-0.5">#{index + 1}</p>
+          <p class="mb-0.5">#{index + 1}</p>
         {/if}
+        <div class="mr-1"></div>
         {#if pair.revealed}
           {#each pair.players as player, index}
             {#if index > 0}

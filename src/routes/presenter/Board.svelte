@@ -23,17 +23,23 @@
   }
 
   const prompts: Prompt[] = [
+
     { prompt: "Eenden hebben veel gender, maar welk deel van een eend heeft het meeste gender?", image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fbackground%2F20230519%2Foriginal%2Fpngtree-close-up-of-a-duck-with-its-mouth-open-picture-image_2664687.jpg&f=1&ipt=6057b5d5d8c03b0369f909c3d72e7d9b43f114e398629a23d51b83a8c460a402" },
-    { prompt: "5 personen zijn vastgebonden aan de treinrails. Er is een schakel naar een ander spoor, maar daar is nog 1 persoon vastgebonden. Wat doe je?", image: "https://thesixthformreview.wordpress.com/wp-content/uploads/2021/07/1_8cs-6f1xcvrg1iijtfk2zq.jpeg" },
-    { prompt: "Flammie de Flamingo is verkozen tot de nieuwe Fiscus van Anteros! Maar later blijkt dat Flammie het geld heeft misbruikt voor persoonlijk vermaak, namelijk...", image: "https://media.anonyig.com/get?__sig=xFiup971qdvbFipxER_e-w&__expires=1744897869&uri=https%3A%2F%2Fscontent-cgk1-2.cdninstagram.com%2Fv%2Ft51.2885-19%2F461168927_503466172396187_4157807392802107541_n.jpg%3Fstp%3Ddst-jpg_s150x150_tt6%26_nc_ht%3Dscontent-cgk1-2.cdninstagram.com%26_nc_cat%3D111%26_nc_oc%3DQ6cZ2QFGNIs6Fpth4TzMvLYjeqrpLlERWqxE6bm_QjqAyMvfwT4p-LyiP7yNSqM__EEtnOY%26_nc_ohc%3DPevmf8YB2owQ7kNvwGmK5pu%26_nc_gid%3DtVrKBbezCmafCstFVW-I9Q%26edm%3DAEF8tYYBAAAA%26ccb%3D7-5%26oh%3D00_AfG7YajOrAT6laCAFCCMozF5vMisrBPigs_aDIGSjJn23g%26oe%3D6806D1F4%26_nc_sid%3D1e20d2&filename=461168927_503466172396187_4157807392802107541_n.jpg" },
-    { prompt: "Wat wordt de volgende vraag?" },
-    { prompt: "[insert volgende vraag hier]" },
+    { prompt: "5 personen zijn vastgebonden aan de treinrails. Er is een schakel naar een ander spoor, maar daar is nog 1 persoon vastgebonden. Wat doe je?", image: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F48da444a-3eb7-434b-8664-cf163bd7d443_2058x1080.jpeg" },
+    { prompt: "Flammie de Flamingo is verkozen tot de nieuwe Fiscus van Anteros! Maar later blijkt dat Flammie het geld heeft misbruikt voor persoonlijk vermaak, namelijk..." },
     { prompt: "Kies een tienletterwoord een maak er een acroniem (afkorting) van die het woord beschrijft.", image: tienletterwoord },
     { prompt: "Maak een slogan voor een restaurant in een wereld waar eten gezien wordt als taboe." },
-    { prompt: "De to-do lijst van Mark Rutte van afgelopen dinsdag.", image: markie },
+
+    { prompt: "Wat wordt de volgende vraag?" },
+    { prompt: "[insert volgende vraag hier]", nextquestion: true },
+
+    { prompt: "Wat stond er op de to-do lijst van Mark Rutte van afgelopen dinsdag?", image: markie },
     { prompt: "Beschrijf een bekend sprookje op de meest queer manier mogelijk.", image: "https://imageio.forbes.com/specials-images/imageserve/5f3d04936c3b686510f0d91a/why--The-Dog-And-The-Sailor--is-the-gay-fairytale-folklore-lost-for-over-200-years-/0x0.jpg?format=jpg&crop=4000,2667,x0,y161,safe&width=960" },
+    { prompt: "Welk nieuw gebouw heeft Sesamstraat echt nodig?" },
     { prompt: "Er was eens een kapper in een dorp. De kapper scheerde iedereen in het dorp die niet zichzelf scheerde. Maar wie scheerde dan de kapper?" },
-    { prompt: "Wat zijn de tien woorden van wijsheid?" },
+    { prompt: "Bedenk een nieuw woord voor een fenomeen dat totaal vaak gebeurd." },
+    { prompt: "Je bent vergeten een project te maken en de deadline is vandaag. Je hebt zin om wat chaos te zaaien. Wat lever je in in plaats daarvan?" },
+    { prompt: "Wat zijn de tien woorden van wijsheid?", multiplier: 2 },
   ];
 
   let players: Record<string, Player> = $state({});
@@ -45,6 +51,9 @@
   let state: 'lobby' | 'fill' | 'vote' | 'results' | 'leaderboard' = $state('lobby');
   let started: bool = $derived(state !== 'lobby');
   let index: number = $state(0);
+
+  let lastquestion: string = $state("");
+  let currentPrompt = $derived(prompts[index].nextquestion ? lastquestion : prompts[index].prompt);
 
   let playerOrder = $derived.by(() => {
     const names = Object.keys(players);
@@ -144,6 +153,7 @@
       pairs[i].score = average;
     }
     pairs.sort((a, b) => a.score - b.score);
+    lastquestion = pairs[0].fill;
 
     // remove votes
     for (const player of Object.keys(players)) {
@@ -179,21 +189,19 @@
       };
       conn.send(JSON.stringify(msg));
     } else if (state === 'fill') {
-      const prompt = prompts[index].prompt;
       const msg: ChangeStateMsg = {
         message: 'state',
         state: 'fill',
         partners: pair.players,
-        prompt,
+        prompt: currentPrompt,
       };
       conn.send(JSON.stringify(msg));
     } else if (state === 'vote') {
-      const prompt = prompts[index].prompt;
       const msg: ChangeStateMsg = {
         message: 'state',
         state: 'vote',
         answers: pairs.filter(pair => !pair.players.includes(player)).map(pair => pair.fill),
-        prompt,
+        prompt: currentPrompt,
       };
       conn.send(JSON.stringify(msg));
     }
@@ -206,14 +214,15 @@
   function next() {
     // award medals
     // TODO: fails if not enough pairs
+    const amount = prompts[index].multiplier ?? 1;
     for (const player of pairs[0].players) {
-      players[player].medals.gold += 1;
+      players[player].medals.gold += amount;
     }
     for (const player of pairs[1].players) {
-      players[player].medals.silver += 1;
+      players[player].medals.silver += amount;
     }
     for (const player of pairs[2].players) {
-      players[player].medals.bronze += 1;
+      players[player].medals.bronze += amount;
     }
 
     // continue
@@ -323,9 +332,9 @@
   </div>
 {:else}
   <p class="text-left">Code: <strong>{word.toUpperCase()}</strong></p>
-  <BoardPrompt prompt={prompts[index]}/>
+  <BoardPrompt prompt={{ prompt: currentPrompt, image: prompts[index].image }}/>
   {#if state === 'results'}
-    <BoardResults {reveal} {next} pairs={pairs.map(pair => ({ fill: pair.fill, revealed: pair.revealed ?? false, players: pair.players.map(name => ({ name, medals: players[name].medals })) }))}/>
+    <BoardResults count={prompts[index].multiplier ?? 1} {reveal} {next} pairs={pairs.map(pair => ({ fill: pair.fill, revealed: pair.revealed ?? false, players: pair.players.map(name => ({ name, medals: players[name].medals })) }))}/>
   {:else}
     {#if state === 'fill'}
       <p class="text-center">Zoek je partner(s) en vul de vraag in!</p>

@@ -12,6 +12,8 @@ declare global {
 
 export type Prompt = {
   prompt: string;
+  nextquestion?: bool,
+  multiplier?: number,
   image?: string;
 }
 
