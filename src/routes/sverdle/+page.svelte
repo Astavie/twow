@@ -3,6 +3,7 @@
 	import { confetti } from '@neoconfetti/svelte';
 	import { MediaQuery } from 'svelte/reactivity';
 	import { Game } from './game';
+	import { base } from '$app/paths';
 
 	let game = $state(new Game());
 	let badGuess = $state(false);
@@ -108,7 +109,7 @@
 <h1 class="visually-hidden">Sverdle</h1>
 
 <form onsubmit={enter}>
-	<a class="how-to-play" href="/sverdle/how-to-play">How to play</a>
+	<a class="how-to-play" href={`${base}/sverdle/how-to-play`}>How to play</a>
 
 	<div class="grid" class:playing={!won} class:bad-guess={badGuess}>
 		{#each Array.from(Array(6).keys()) as row (row)}
