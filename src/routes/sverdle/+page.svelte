@@ -1,26 +1,23 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { confetti } from '@neoconfetti/svelte';
-	import type { ActionData, PageData } from './$types';
 	import { MediaQuery } from 'svelte/reactivity';
+	import { Game } from './game';
 
-	interface Props {
-		data: PageData;
-		form: ActionData;
-	}
-	let { data, form = $bindable() }: Props = $props();
+	let game = $state(new Game());
+	let badGuess = $state(false);
 
 	/** Whether the user prefers reduced motion */
 	const reducedMotion = new MediaQuery('(prefers-reduced-motion: reduce)');
 
 	/** Whether or not the user has won */
-	let won = $derived(data.answers.at(-1) === 'xxxxx');
+	let won = $derived(game.answers.at(-1) === 'xxxxx');
 
 	/** The index of the current guess */
-	let i = $derived(won ? -1 : data.answers.length);
+	let i = $derived(won ? -1 : game.answers.length);
 
 	/** The current guess */
-	let currentGuess = $derived(data.guesses[i] || '');
+	let currentGuess = $derived(game.guesses[i] || '');
 
 	/** Whether the current guess can be submitted */
 	let submittable = $derived(currentGuess.length === 5);
@@ -36,8 +33,8 @@
 		 * used for adding text for assistive technology (e.g. screen readers)
 		 */
 		let description: Record<string, string> = {};
-		data.answers.forEach((answer, i) => {
-			const guess = data.guesses[i];
+		game.answers.forEach((answer, i) => {
+			const guess = game.guesses[i];
 			for (let i = 0; i < 5; i += 1) {
 				const letter = guess[i];
 				if (answer[i] === 'x') {
@@ -64,10 +61,26 @@
 
 		if (key === 'backspace') {
 			currentGuess = currentGuess.slice(0, -1);
-			if (form?.badGuess) form.badGuess = false;
+			if (badGuess) badGuess = false;
 		} else if (currentGuess.length < 5) {
 			currentGuess += key;
 		}
+	}
+
+	function enter(event: SubmitEvent) {
+		event.preventDefault();
+		if (!submittable) return;
+
+		if (!game.enter(currentGuess.split(''))) {
+			badGuess = true;
+		}
+		game = new Game(game.toString());
+	}
+
+	function restart(event: MouseEvent) {
+		event.preventDefault();
+		game = new Game();
+		badGuess = false;
 	}
 
 	/**
@@ -94,26 +107,17 @@
 
 <h1 class="visually-hidden">Sverdle</h1>
 
-<form
-	method="post"
-	action="?/enter"
-	use:enhance={() => {
-		// prevent default callback from resetting the form
-		return ({ update }) => {
-			update({ reset: false });
-		};
-	}}
->
+<form onsubmit={enter}>
 	<a class="how-to-play" href="/sverdle/how-to-play">How to play</a>
 
-	<div class="grid" class:playing={!won} class:bad-guess={form?.badGuess}>
+	<div class="grid" class:playing={!won} class:bad-guess={badGuess}>
 		{#each Array.from(Array(6).keys()) as row (row)}
 			{@const current = row === i}
 			<h2 class="visually-hidden">Row {row + 1}</h2>
 			<div class="row" class:current>
 				{#each Array.from(Array(5).keys()) as column (column)}
-					{@const guess = current ? currentGuess : data.guesses[row]}
-					{@const answer = data.answers[row]?.[column]}
+					{@const guess = current ? currentGuess : game.guesses[row]}
+					{@const answer = game.answers[row]?.[column]}
 					{@const value = guess?.[column] ?? ''}
 					{@const selected = current && column === guess.length}
 					{@const exact = answer === 'x'}
@@ -140,11 +144,11 @@
 	</div>
 
 	<div class="controls">
-		{#if won || data.answers.length >= 6}
-			{#if !won && data.answer}
-				<p>the answer was "{data.answer}"</p>
+		{#if won || game.answers.length >= 6}
+			{#if !won && game.answer}
+				<p>the answer was "{game.answer}"</p>
 			{/if}
-			<button data-key="enter" class="restart selected" formaction="?/restart">
+			<button data-key="enter" class="restart selected" onclick={restart}>
 				{won ? 'you won :)' : `game over :(`} play again?
 			</button>
 		{:else}
@@ -154,7 +158,6 @@
 				<button
 					onclick={update}
 					data-key="backspace"
-					formaction="?/update"
 					name="key"
 					value="backspace"
 				>
@@ -169,7 +172,6 @@
 								data-key={letter}
 								class={classnames[letter]}
 								disabled={submittable}
-								formaction="?/update"
 								name="key"
 								value={letter}
 								aria-label="{letter} {description[letter] || ''}"

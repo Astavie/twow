@@ -10,4 +10,62 @@ declare global {
 	}
 }
 
+export type Prompt = {
+  prompt: string;
+  image?: string;
+}
+
+export type FillState = {
+	state: "fill",
+	partners: string[],
+	prompt: string,
+}
+
+export type WaitState = {
+	state: "wait",
+}
+
+export type VoteState = {
+	state: "vote",
+	answers: string[],
+	prompt: string,
+}
+
+export type State = WaitState | FillState | VoteState;
+
+export type Medals = {
+	gold: number,
+	silver: number,
+	bronze: number,
+}
+
+export type HelloMsg = {
+	message: "hello",
+	name: string,
+};
+
+export type FillMsg = {
+	message: "fill",
+	fill: string,
+};
+
+export type VoteMsg = {
+	message: "vote",
+	order: number[],
+}
+
+export type ClientMsg = HelloMsg | FillMsg | VoteMsg;
+
+export type StatusMsg = {
+	message: "status",
+	medals: Medals,
+	place?: number,
+}
+
+export type ChangeStateMsg = {
+	message: "state",
+} & State;
+
+export type ServerMsg = HelloAckMsg | ChangeStateMsg;
+
 export {};
