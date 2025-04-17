@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import logo from '$lib/images/svelte-logo.svg';
 	import github from '$lib/images/github.svg';
+	import { base } from '$app/paths';
 </script>
 
 <header>
@@ -23,14 +24,14 @@
 				<a href="/">Home</a>
 			</li>
 			-->
-			<li aria-current={page.url.pathname.startsWith('/game') ? 'page' : undefined}>
-				<a href="/game">Play</a>
+			<li aria-current={page.url.pathname.startsWith(`${base}/game`) ? 'page' : undefined}>
+				<a href={`${base}/game`}>Play</a>
 			</li>
-			<li aria-current={page.url.pathname.startsWith('/presenter') ? 'page' : undefined}>
-				<a href="/presenter">Present</a>
+			<li aria-current={page.url.pathname.startsWith(`${base}/presenter`) ? 'page' : undefined}>
+				<a href={`${base}/presenter`}>Present</a>
 			</li>
-			<li aria-current={page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
-				<a href="/sverdle">Sverdle</a>
+			<li aria-current={page.url.pathname.startsWith(`${base}/sverdle`) ? 'page' : undefined}>
+				<a href={`${base}/sverdle`}>Sverdle</a>
 			</li>
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
