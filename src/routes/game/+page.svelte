@@ -10,20 +10,20 @@
 
   let loading: bool = $derived(peer !== undefined && gameConn === undefined);
 
-  let name;
-  let word;
+  let name: string = $state("");
+  let word: string = $state("");
 
 	$effect(function() {
-  	name.value = window.sessionStorage.getItem('twow-name');
-  	word.value = window.sessionStorage.getItem('twow-word');
+  	name = window.sessionStorage.getItem('twow-name');
+  	word = window.sessionStorage.getItem('twow-word');
 	});
 
   function connect() {
-    const uuid = getUuid(`astavie-twow-${word.value.toLowerCase()}`);
+    const uuid = getUuid(`astavie-twow-${word.toLowerCase()}`);
     if (!name || !word) return;
 
-    window.sessionStorage.setItem('twow-name', name.value);
-    window.sessionStorage.setItem('twow-word', word.value);
+    window.sessionStorage.setItem('twow-name', name);
+    window.sessionStorage.setItem('twow-word', word);
 
   	peer = new Peer();
     peer.on('open', function() {
@@ -66,9 +66,9 @@
 		<form onsubmit={connect} class="w-100">
 			<div class="flex flex-col">
 				<label class="mt-2">Naam</label>
-				<input class="m-1" type="text" bind:this={name} disabled={loading}/>
+				<input class="m-1" type="text" bind:value={name} disabled={loading}/>
 				<label class="mt-2">Code</label>
-				<input class="m-1" type="text" bind:this={word} disabled={loading}/>
+				<input class="m-1" type="text" bind:value={word} disabled={loading}/>
 				<button class="m-1 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" type="submit" disabled={loading}>(Re)connect</button>
 				{#if loading}
 					<center><Jumper size="60" color="#FF3E00" unit="px" duration="1s" /></center>
