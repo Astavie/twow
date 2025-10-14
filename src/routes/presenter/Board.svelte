@@ -28,25 +28,32 @@
 
     { prompt: "Leg uit wat gender is, in precies 2 woorden", gimmick: 'words', wordQuota: 2 },
     { prompt: 'Welk woord vind Eefie volgens de quotes-app "te basic"?', gimmick: 'guess', correct: ['defenestratie'] },
+    { prompt: 'In tien woorden, wat zijn jullie elf favoriete woorden?', gimmick: 'words', wordQuota: 10 },
+    { prompt: 'De minder bekende, originele uitspraak van Julius Caesar naar Brutus, die later versimpeld is naar “E tu, Brute?” (bedenk iets leuks)' },
+    { prompt: 'Hoeveel ribben heeft een icosaëder?', correct: 30 },
+    { prompt: "Wat wordt de volgende vraag?" },
+    { prompt: "[insert volgende vraag hier]", nextquestion: true },
+    { prompt: 'In een woord, omschrijf de penis van een eend. (er is een correct antwoord)', correct: ['corkscrew', 'kurketrekker', 'screw', 'helical', 'spiraal', 'spiraaltje', 'spiraalachtig'] },
+    { prompt: "Je bent vergeten een project te maken en de deadline is vandaag. Je hebt zin om wat chaos te zaaien. Wat lever je in in plaats daarvan?" },
     { prompt: 'Uit hoeveel regels code bestaat dit spel?', gimmick: 'number', correct: 1289 },
 
     // OLD
 
-    { prompt: "Eenden hebben veel gender, maar welk deel van een eend heeft het meeste gender?", image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fbackground%2F20230519%2Foriginal%2Fpngtree-close-up-of-a-duck-with-its-mouth-open-picture-image_2664687.jpg&f=1&ipt=6057b5d5d8c03b0369f909c3d72e7d9b43f114e398629a23d51b83a8c460a402" },
-    { prompt: "5 personen zijn vastgebonden aan de treinrails. Er is een schakel naar een ander spoor, maar daar is nog 1 persoon vastgebonden. Wat doe je?", image: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F48da444a-3eb7-434b-8664-cf163bd7d443_2058x1080.jpeg" },
-    { prompt: "Flammie de Flamingo is verkozen tot de nieuwe Fiscus van Anteros! Maar later blijkt dat Flammie het geld heeft misbruikt voor persoonlijk vermaak, namelijk..." },
-    { prompt: "Kies een tienletterwoord een maak er een acroniem (afkorting) van die het woord beschrijft.", image: tienletterwoord },
-    { prompt: "Maak een slogan voor een restaurant in een wereld waar eten gezien wordt als taboe." },
+    // { prompt: "Eenden hebben veel gender, maar welk deel van een eend heeft het meeste gender?", image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fpng.pngtree.com%2Fbackground%2F20230519%2Foriginal%2Fpngtree-close-up-of-a-duck-with-its-mouth-open-picture-image_2664687.jpg&f=1&ipt=6057b5d5d8c03b0369f909c3d72e7d9b43f114e398629a23d51b83a8c460a402" },
+    // { prompt: "5 personen zijn vastgebonden aan de treinrails. Er is een schakel naar een ander spoor, maar daar is nog 1 persoon vastgebonden. Wat doe je?", image: "https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F48da444a-3eb7-434b-8664-cf163bd7d443_2058x1080.jpeg" },
+    // { prompt: "Flammie de Flamingo is verkozen tot de nieuwe Fiscus van Anteros! Maar later blijkt dat Flammie het geld heeft misbruikt voor persoonlijk vermaak, namelijk..." },
+    // { prompt: "Kies een tienletterwoord een maak er een acroniem (afkorting) van die het woord beschrijft.", image: tienletterwoord },
+    // { prompt: "Maak een slogan voor een restaurant in een wereld waar eten gezien wordt als taboe." },
 
-    { prompt: "Wat wordt de volgende vraag?" },
-    { prompt: "[insert volgende vraag hier]", nextquestion: true },
+    // { prompt: "Wat wordt de volgende vraag?" },
+    // { prompt: "[insert volgende vraag hier]", nextquestion: true },
 
-    { prompt: "Wat stond er op de to-do lijst van Mark Rutte van afgelopen dinsdag?", image: markie },
-    { prompt: "Beschrijf een bekend sprookje op de meest queer manier mogelijk.", image: "https://imageio.forbes.com/specials-images/imageserve/5f3d04936c3b686510f0d91a/why--The-Dog-And-The-Sailor--is-the-gay-fairytale-folklore-lost-for-over-200-years-/0x0.jpg?format=jpg&crop=4000,2667,x0,y161,safe&width=960" },
-    { prompt: "Welk nieuw gebouw heeft Sesamstraat echt nodig?" },
-    { prompt: "Er was eens een kapper in een dorp. De kapper scheerde iedereen in het dorp die niet zichzelf scheerde. Maar wie scheerde dan de kapper?" },
-    { prompt: "Je bent vergeten een project te maken en de deadline is vandaag. Je hebt zin om wat chaos te zaaien. Wat lever je in in plaats daarvan?" },
-    { prompt: "Wat zijn de tien woorden van wijsheid?", multiplier: 2 },
+    // { prompt: "Wat stond er op de to-do lijst van Mark Rutte van afgelopen dinsdag?", image: markie },
+    // { prompt: "Beschrijf een bekend sprookje op de meest queer manier mogelijk.", image: "https://imageio.forbes.com/specials-images/imageserve/5f3d04936c3b686510f0d91a/why--The-Dog-And-The-Sailor--is-the-gay-fairytale-folklore-lost-for-over-200-years-/0x0.jpg?format=jpg&crop=4000,2667,x0,y161,safe&width=960" },
+    // { prompt: "Welk nieuw gebouw heeft Sesamstraat echt nodig?" },
+    // { prompt: "Er was eens een kapper in een dorp. De kapper scheerde iedereen in het dorp die niet zichzelf scheerde. Maar wie scheerde dan de kapper?" },
+    // { prompt: "Je bent vergeten een project te maken en de deadline is vandaag. Je hebt zin om wat chaos te zaaien. Wat lever je in in plaats daarvan?" },
+    // { prompt: "Wat zijn de tien woorden van wijsheid?", multiplier: 2 },
 
   ];
 
@@ -123,7 +130,8 @@
 
   function assignPairs(): string[][] {
     const names = shuffle(Object.keys(players));
-    return names.map(name => [name])
+    // if (currentGimmick === 'number' || currentGimmick === 'guess')
+      return names.map(name => [name])
 
     // if (names.length % 2 === 1) {
     //   const leftover = names.pop();
@@ -163,7 +171,7 @@
     // calculate scores
     if (currentGimmick === 'guess') {
       for (let i = 0; i < pairs.length; i++) {
-        pairs[i].score = (prompts[index].correct! as string[]).includes(pairs[i].fill!) ? 0 : 1
+        pairs[i].score = (prompts[index].correct! as string[]).includes(pairs[i].fill!.toLowerCase()) ? 0 : 1
       }
     } else if (currentGimmick === 'number') {
       const correct = prompts[index].correct! as number
