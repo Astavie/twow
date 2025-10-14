@@ -61,9 +61,9 @@
       const pA = players[a].medals;
       const pB = players[b].medals;
 
-      // const totalA = pA.gold + pA.silver + pA.bronze;
-      // const totalB = pB.gold + pB.silver + pB.bronze;
-      // if (totalA !== totalB) return totalB - totalA;
+      const totalA = pA.gold + pA.silver + pA.bronze;
+      const totalB = pB.gold + pB.silver + pB.bronze;
+      if (totalA !== totalB) return totalB - totalA;
 
       if (pA.gold !== pB.gold) return pB.gold - pA.gold;
       if (pA.silver !== pB.silver) return pB.silver - pA.silver;
