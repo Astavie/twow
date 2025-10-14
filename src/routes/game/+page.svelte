@@ -10,21 +10,20 @@
 
   let loading: bool = $derived(peer !== undefined && gameConn === undefined);
 
+  let name;
+  let word;
+
 	$effect(function() {
-  	const name = document.getElementById("name");
-  	const word = document.getElementById("word");
   	name.value = window.sessionStorage.getItem('twow-name');
   	word.value = window.sessionStorage.getItem('twow-word');
 	});
 
   function connect() {
-  	const name = document.getElementById("name").value;
-  	const word = document.getElementById("word").value;
-    const uuid = getUuid(`astavie-twow-${word.toLowerCase()}`);
+    const uuid = getUuid(`astavie-twow-${word.value.toLowerCase()}`);
     if (!name || !word) return;
 
-    window.sessionStorage.setItem('twow-name', name);
-    window.sessionStorage.setItem('twow-word', word);
+    window.sessionStorage.setItem('twow-name', name.value);
+    window.sessionStorage.setItem('twow-word', word.value);
 
   	peer = new Peer();
     peer.on('open', function() {
@@ -49,7 +48,7 @@
 	    		peer.disconnect();
 	    		peer = undefined;
 	    	}
-	    }, 2 * 1000);
+	    }, 5 * 1000);
     });
   }
 </script>
@@ -67,9 +66,9 @@
 		<form onsubmit={connect} class="w-100">
 			<div class="flex flex-col">
 				<label class="mt-2">Naam</label>
-				<input class="m-1" type="text" id="name" disabled={loading}/>
+				<input class="m-1" type="text" bind:this={name} disabled={loading}/>
 				<label class="mt-2">Code</label>
-				<input class="m-1" type="text" id="word" disabled={loading}/>
+				<input class="m-1" type="text" bind:this={word} disabled={loading}/>
 				<button class="m-1 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" type="submit" disabled={loading}>(Re)connect</button>
 				{#if loading}
 					<center><Jumper size="60" color="#FF3E00" unit="px" duration="1s" /></center>
