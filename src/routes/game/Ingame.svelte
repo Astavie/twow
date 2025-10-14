@@ -105,7 +105,7 @@
   }
 
   function onfill() {
-    if (wordCounter !== 10) return;
+    if (!isValid()) return;
     sending = true;
 
     const msg: FillMsg = {
@@ -143,6 +143,18 @@
     } else {
       currentCompare = next.value;
     }
+  }
+
+  function hasCounter(): boolean {
+    return state.state === 'fill' && state.gimmick === 'words'
+  }
+
+  function isValid(): boolean {
+    return state.state === 'fill' && (
+      (state.gimmick === 'words' && wordCounter === state.wordQuota!) ||
+      (state.gimmick === 'number' && /^\d+$/.test(filled)) ||
+      (state.gimmick === 'guess' || state.gimmick === undefined)
+    )
   }
 </script>
 
@@ -192,9 +204,11 @@
     <div class="flex flex-col items-center w-full">
       <form class="w-full" onsubmit={onfill}>
         <input type="text" class="w-full" oninput={oninput} disabled={sending}/>
-        <p class="text-right w-full mr-2" class:text-green-800={wordCounter === 10} class:text-red-600={wordCounter !== 10}>{wordCounter} woord{#if wordCounter !== 1}en{/if}</p>
+        {#if hasCounter()}
+          <p class="text-right w-full mr-2" class:text-green-800={isValid()} class:text-red-600={!isValid()}>{wordCounter} woord{#if wordCounter !== 1}en{/if}</p>
+        {/if}
         <div class="text-center">
-          <button type="submit" disabled={wordCounter !== 10 || sending} class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Stuur</button>
+          <button type="submit" disabled={!isValid() || sending} class="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">Stuur</button>
         </div>
       </form>
       {#if sending}

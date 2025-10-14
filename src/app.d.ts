@@ -15,12 +15,22 @@ export type Prompt = {
   nextquestion?: bool,
   multiplier?: number,
   image?: string;
+
+  gimmick?: Gimmick,
+  wordQuota?: number,
+  correct?: string[] | number,
 }
+
+export type Gimmick = "words" | "guess" | 'number'
 
 export type FillState = {
 	state: "fill",
 	partners: string[],
 	prompt: string,
+	gimmick?: Gimmick,
+
+	wordQuota?: number,
+	correct?: string[] | number,
 }
 
 export type WaitState = {
