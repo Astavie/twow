@@ -8,6 +8,7 @@
     fill: string,
     players: Player[],
     revealed: boolean,
+    placement: number | null,
   }
   let { pairs, reveal, next, count }: { pairs: Pair[], reveal: (number) => void, next: () => void, count: number } = $props();
 
@@ -24,20 +25,20 @@
   <div class="flex flex-col items-start">
     {#each pairs as pair, index}
       <div class="h-9 flex items-end">
-        {#if index === 0}
+        {#if pair.placement === 0}
         {#each { length: count }}
           <img class="h-7" alt='Gold medal' src={goldMedal}/>
         {/each}
-        {:else if index === 1}
+        {:else if pair.placement === 1}
         {#each { length: count }}
           <img class="h-7" alt='Silver medal' src={silverMedal}/>
         {/each}
-        {:else if index === 2}
+        {:else if pair.placement === 2}
         {#each { length: count }}
           <img class="h-7" alt='Bronze medal' src={bronzeMedal}/>
         {/each}
-        {:else}
-          <p class="mb-0.5">#{index + 1}</p>
+        {:else if pair.placement !== null}
+          <p class="mb-0.5">#{pair.placement + 1}</p>
         {/if}
         <div class="mr-1"></div>
         {#if pair.revealed}

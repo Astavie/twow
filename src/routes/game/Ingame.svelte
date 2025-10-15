@@ -193,11 +193,14 @@
 
 {#if state.state === 'fill'}
   <p class="text-2xl text-center">{state.prompt}</p>
-  <p class="text-center">Deze ronde doe je samen met 
+  <p class="text-center">
+  {#if state.partners.length === 1}Deze ronde doe je alleen.
+  {:else}Deze ronde doe je samen met 
   {#each state.partners.filter(p => p !== name) as partner, i}
     {#if i > 0}{" en "}{/if}
     <strong>{partner}</strong>
-  {/each}.
+  {/each}. Alleen één van jullie levert een antwoord in.
+  {/if}
   </p>
 
   <div class="flex grow items-center ml-2 mr-2">

@@ -20,6 +20,7 @@
     fill?: string,
     score?: number,
     revealed?: boolean,
+    placement?: number | null,
   }
 
   const prompts: Prompt[] = [
@@ -172,7 +173,7 @@
     // calculate scores
     if (currentGimmick === 'guess') {
       for (let i = 0; i < pairs.length; i++) {
-        pairs[i].score = (prompts[index].correct! as string[]).includes(pairs[i].fill!.toLowerCase()) ? 0 : 1
+        pairs[i].score = (prompts[index].correct! as string[]).includes(pairs[i].fill!.toLowerCase()) ? 0 : Number.MAX_SAFE_INTEGER
       }
     } else if (currentGimmick === 'number') {
       const correct = prompts[index].correct! as number
@@ -193,8 +194,19 @@
       }
     }
 
+    // sort and calculate placements
     pairs.sort((a, b) => a.score - b.score);
 
+    const scores = pairs.map(p => p.score);
+    for (let i = 0; i < pairs.length; i++) {
+      if (pairs[i].score === Number.MAX_SAFE_INTEGER) {
+        pairs[i].placement = null
+      } else {
+        pairs[i].placement = scores.indexOf(pairs[i].score)
+      }
+    }
+
+    // send to clients
     state = 'results';
     for (const player of Object.keys(players)) {
       sendState(player);
@@ -254,16 +266,23 @@
     lastquestion = pairs[0].fill;
 
     // award medals
-    // TODO: fails if not enough pairs
     const amount = prompts[index].multiplier ?? 1;
-    for (const player of pairs[0].players) {
-      players[player].medals.gold += amount;
-    }
-    for (const player of pairs[1].players) {
-      players[player].medals.silver += amount;
-    }
-    for (const player of pairs[2].players) {
-      players[player].medals.bronze += amount;
+    for (const pair of pairs) {
+      if (pair.placement === 0) {
+        for (const player of pair.players) {
+          players[player].medals.gold += amount;
+        }
+      }
+      if (pair.placement === 1) {
+        for (const player of pair.players) {
+          players[player].medals.silver += amount;
+        }
+      }
+      if (pair.placement === 2) {
+        for (const player of pair.players) {
+          players[player].medals.bronze += amount;
+        }
+      }
     }
 
     // continue
@@ -334,7 +353,6 @@
             players[name].votes = msg.order;
           } else {
             players[name].votes = msg.order.map(idx => idx >= pair ? idx + 1 : idx);
-            console.log(name, players[name].votes);
           }
 
           if (allvoted) {
@@ -375,10 +393,10 @@
   <p class="text-left">Code: <strong>{word.toUpperCase()}</strong></p>
   <BoardPrompt prompt={{ prompt: currentPrompt, image: prompts[index].image }}/>
   {#if state === 'results'}
-    <BoardResults count={prompts[index].multiplier ?? 1} {reveal} {next} pairs={pairs.map(pair => ({ fill: pair.fill, revealed: pair.revealed ?? false, players: pair.players.map(name => ({ name, medals: players[name].medals })) }))}/>
+    <BoardResults count={prompts[index].multiplier ?? 1} {reveal} {next} pairs={pairs.map(pair => ({ placement: pair.placement!, fill: pair.fill!, revealed: pair.revealed ?? false, players: pair.players.map(name => ({ name, medals: players[name].medals })) }))}/>
   {:else}
     {#if state === 'fill'}
-      <p class="text-center">Zoek je partner(s) en vul de vraag in!</p>
+      <p class="text-center">Geef je antwoord!</p>
     {:else}
       <p class="text-center">Vote now on your phones!</p>
     {/if}
