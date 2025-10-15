@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { PUBLIC_HOST, PUBLIC_PORT } from '$env/static/public';
+  import { PUBLIC_HOST, PUBLIC_PATH } from '$env/static/public';
 
   import Board from './Board.svelte';
   import Peer, { type DataConnection } from 'peerjs';
@@ -11,7 +11,7 @@
 
   function fromWord(word: string): Peer {
     const uuid = getUuid(`astavie-twow-${word}`);
-    const peer = new Peer(uuid, { host: PUBLIC_HOST, port: PUBLIC_PORT, secure: false });
+    const peer = new Peer(uuid, { host: PUBLIC_HOST, path: PUBLIC_PATH });
     return peer;
   }
 </script>

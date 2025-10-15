@@ -27,8 +27,8 @@ export type FillState = {
 	state: "fill",
 	partners: string[],
 	prompt: string,
-	gimmick?: Gimmick,
 
+	gimmick?: Gimmick,
 	wordQuota?: number,
 	correct?: string[] | number,
 }

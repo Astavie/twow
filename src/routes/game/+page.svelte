@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_HOST, PUBLIC_PORT } from '$env/static/public';
+	import { PUBLIC_HOST, PUBLIC_PATH } from '$env/static/public';
 
 	import Ingame from './Ingame.svelte';
 	import { Jumper, Circle } from 'svelte-loading-spinners';
@@ -27,7 +27,7 @@
     window.sessionStorage.setItem('twow-name', name);
     window.sessionStorage.setItem('twow-word', word);
 
-    peer = new Peer(undefined, { host: PUBLIC_HOST, port: PUBLIC_PORT, secure: false });
+    peer = new Peer(undefined, { host: PUBLIC_HOST, path: PUBLIC_PATH });
     peer.on('open', function() {
 	  	const conn = peer.connect(uuid);
 
