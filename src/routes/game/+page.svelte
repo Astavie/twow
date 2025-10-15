@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { PUBLIC_HOST, PUBLIC_PORT } from '$env/static/public';
+
 	import Ingame from './Ingame.svelte';
 	import { Jumper, Circle } from 'svelte-loading-spinners';
 	import Peer, { type DataConnection } from 'peerjs';
@@ -25,7 +27,7 @@
     window.sessionStorage.setItem('twow-name', name);
     window.sessionStorage.setItem('twow-word', word);
 
-  	peer = new Peer();
+    peer = new Peer(undefined, { host: PUBLIC_HOST, port: PUBLIC_PORT, secure: false });
     peer.on('open', function() {
 	  	const conn = peer.connect(uuid);
 
@@ -69,11 +71,10 @@
 				<input class="m-1" type="text" bind:value={name} disabled={loading}/>
 				<label class="mt-2">Code</label>
 				<input class="m-1" type="text" bind:value={word} disabled={loading}/>
-				<button class="m-1 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" type="submit" disabled={loading}>(Re)connect</button>
 				{#if loading}
-					<center><Jumper size="60" color="#FF3E00" unit="px" duration="1s" /></center>
+					<center><Jumper size="52" color="#FF3E00" unit="px" duration="1s" /></center>
 	    	{:else}
-	    	  <div style="height: 60px;"></div>
+					<button class="m-1 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" type="submit">(Re)connect</button>
 				{/if}
 			</div>
 		</form>

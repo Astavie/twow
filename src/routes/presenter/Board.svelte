@@ -30,11 +30,12 @@
     { prompt: 'Welk woord vind Eefie volgens de quotes-app "te basic"?', gimmick: 'guess', correct: ['defenestratie'] },
     { prompt: 'In tien woorden, wat zijn jullie elf favoriete woorden?', gimmick: 'words', wordQuota: 10 },
     { prompt: 'De minder bekende, originele uitspraak van Julius Caesar naar Brutus, die later versimpeld is naar “E tu, Brute?” (bedenk iets leuks)' },
-    { prompt: 'Hoeveel ribben heeft een icosaëder?', correct: 30 },
+    { prompt: 'Hoeveel ribben heeft een icosaëder?', gimmick: 'number', correct: 30 },
+    { prompt: "Beschrijf een bekend sprookje in 10 woorden op de meest queer manier mogelijk.", gimmick: 'words', wordQuota: 10, image: "https://imageio.forbes.com/specials-images/imageserve/5f3d04936c3b686510f0d91a/why--The-Dog-And-The-Sailor--is-the-gay-fairytale-folklore-lost-for-over-200-years-/0x0.jpg?format=jpg&crop=4000,2667,x0,y161,safe&width=960" },
     { prompt: "Wat wordt de volgende vraag?" },
     { prompt: "[insert volgende vraag hier]", nextquestion: true },
-    { prompt: 'In een woord, omschrijf de penis van een eend. (er is een correct antwoord)', correct: ['corkscrew', 'kurketrekker', 'screw', 'helical', 'spiraal', 'spiraaltje', 'spiraalachtig'] },
-    { prompt: "Je bent vergeten een project te maken en de deadline is vandaag. Je hebt zin om wat chaos te zaaien. Wat lever je in in plaats daarvan?" },
+    { prompt: 'In een woord, omschrijf de penis van een eend. (er is een correct antwoord)', gimmick: 'guess', correct: ['corkscrew', 'kurketrekker', 'kurkentrekker', 'screw', 'helical', 'spiraal', 'spiraaltje', 'spiraalachtig'] },
+    { prompt: "Je bent vergeten een paper te schrijven en de deadline is vandaag. Je hebt zin om wat chaos te zaaien. Wat lever je in in plaats daarvan?" },
     { prompt: 'Uit hoeveel regels code bestaat dit spel?', gimmick: 'number', correct: 1289 },
 
     // OLD
@@ -130,21 +131,21 @@
 
   function assignPairs(): string[][] {
     const names = shuffle(Object.keys(players));
-    // if (currentGimmick === 'number' || currentGimmick === 'guess')
+    if (currentGimmick === 'number' || currentGimmick === 'guess')
       return names.map(name => [name])
 
-    // if (names.length % 2 === 1) {
-    //   const leftover = names.pop();
-    //   if (names.length === 0) {
-    //     return [[leftover]];
-    //   } else {
-    //     const result = zip(splitAt(names.length / 2, names));
-    //     result[0].push(leftover);
-    //     return result;
-    //   }
-    // } else {
-    //   return zip(splitAt(names.length / 2, names));
-    // }
+    if (names.length % 2 === 1) {
+      const leftover = names.pop();
+      if (names.length === 0) {
+        return [[leftover]];
+      } else {
+        const result = zip(splitAt(names.length / 2, names));
+        result[0].push(leftover);
+        return result;
+      }
+    } else {
+      return zip(splitAt(names.length / 2, names));
+    }
   }
 
   function startFill() {
