@@ -8,6 +8,7 @@
 
 	import tienletterwoord from '$lib/images/tienletterwoord.png';
 	import markie from '$lib/images/markie.jpg';
+	import gender from '$lib/images/gender.png';
 
   type Player = {
     medals: Medals,
@@ -27,17 +28,19 @@
 
     // NEW
 
-    { prompt: "Leg uit wat gender is, in precies 2 woorden", gimmick: 'words', wordQuota: 2 },
-    { prompt: 'Welk woord vind Eefie volgens de quotes-app "te basic"?', gimmick: 'guess', correct: ['defenestratie'] },
+    { prompt: "Leg uit wat gender is, in precies 2 woorden", gimmick: 'words', wordQuota: 2, image: gender },
+    { prompt: 'Welk woord vind Eefie volgens de quotes-app "te basic"?', gimmick: 'guess', correct: ['defenestratie'], image: "https://upload.wikimedia.org/wikipedia/commons/b/be/Defenestration-prague-1618.jpg" },
+    { prompt: 'Guys... I forgor 💀 in welk jaar ben ik geboren?', image: "https://www.calendarclub.co.uk/Images/Product/Default/xlarge/328459-totally-rad-90s-trivia-desk-calendar-life.jpg", gimmick: 'number', correct: 2002 },
+    { prompt: "Je moet iets positiefs zeggen over Mark Rutte. Zeg iets negatiefs op een positieve/passief-aggresieve manier.", image: markie },
     { prompt: 'In tien woorden, wat zijn jullie elf favoriete woorden?', gimmick: 'words', wordQuota: 10 },
-    { prompt: 'De minder bekende, originele uitspraak van Julius Caesar naar Brutus, die later versimpeld is naar “E tu, Brute?” (bedenk iets leuks)' },
-    { prompt: 'Hoeveel ribben heeft een icosaëder?', gimmick: 'number', correct: 30 },
+    { prompt: 'De minder bekende, originele uitspraak van Julius Caesar naar Brutus, die later versimpeld is naar “E tu, Brute?” (bedenk iets leuks)', image: "https://64.media.tumblr.com/5a017f2198a154296d4cb64ec993a276/cb3301e6b0176daa-15/s1280x1920/b69d9c31651ea4e4d061f08be2ca1c80dd7399ae.pnj" },
+    { prompt: 'Hoeveel ribben heeft een icosaëder?', image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Dodecahedron.svg/1200px-Dodecahedron.svg.png", gimmick: 'number', correct: 30 },
     { prompt: "Beschrijf een bekend sprookje in 10 woorden op de meest queer manier mogelijk.", gimmick: 'words', wordQuota: 10, image: "https://imageio.forbes.com/specials-images/imageserve/5f3d04936c3b686510f0d91a/why--The-Dog-And-The-Sailor--is-the-gay-fairytale-folklore-lost-for-over-200-years-/0x0.jpg?format=jpg&crop=4000,2667,x0,y161,safe&width=960" },
     { prompt: "Wat wordt de volgende vraag?" },
     { prompt: "[insert volgende vraag hier]", nextquestion: true },
-    { prompt: 'In een woord, omschrijf de penis van een eend. (er is een correct antwoord)', gimmick: 'guess', correct: ['corkscrew', 'kurketrekker', 'kurkentrekker', 'screw', 'helical', 'spiraal', 'spiraaltje', 'spiraalachtig'] },
-    { prompt: "Je bent vergeten een paper te schrijven en de deadline is vandaag. Je hebt zin om wat chaos te zaaien. Wat lever je in in plaats daarvan?" },
-    { prompt: 'Uit hoeveel regels code bestaat dit spel?', gimmick: 'number', correct: 1289 },
+    { prompt: 'In een woord, omschrijf de penis van een eend. (er is een correct antwoord)', image: "https://thumbs.dreamstime.com/b/captivating-black-white-portrait-surprised-goose-set-against-isolated-winter-background-embodying-tranquility-373418923.jpg", gimmick: 'guess', correct: ['corkscrew', 'kurketrekker', 'kurkentrekker', 'screw', 'helical', 'spiraal', 'spiraaltje', 'spiraalachtig'] },
+    { prompt: "Je bent vergeten een paper te schrijven en de deadline is vandaag. Je hebt zin om wat chaos te zaaien. Wat lever je in in plaats daarvan?", image: "https://universityaffairs.ca/wp-content/uploads/2024/11/opinion-dogatehomework-644.jpg" },
+    { prompt: 'Uit hoeveel regels code bestaat dit spel?', gimmick: 'number', correct: 1491 },
 
     // OLD
 
