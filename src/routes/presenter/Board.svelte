@@ -135,10 +135,10 @@
 
   function assignPairs(): string[][] {
     const names = shuffle(Object.keys(players));
-    if (currentGimmick === 'number' || currentGimmick === 'guess')
+    // if (currentGimmick === 'number' || currentGimmick === 'guess')
       return names.map(name => [name])
 
-    if (names.length % 2 === 1) {
+    /*if (names.length % 2 === 1) {
       const leftover = names.pop();
       if (names.length === 0) {
         return [[leftover]];
@@ -149,7 +149,7 @@
       }
     } else {
       return zip(splitAt(names.length / 2, names));
-    }
+    }*/
   }
 
   function startFill() {
